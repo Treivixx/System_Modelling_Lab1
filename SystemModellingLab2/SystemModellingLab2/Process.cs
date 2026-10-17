@@ -38,7 +38,7 @@ public class Process : Element
     public override void OutAct()
     {
         base.OutAct();
-
+        
         State = 0;
         TNext = double.MaxValue;
 
@@ -48,6 +48,8 @@ public class Process : Element
             State = 1;
             TNext = TCurrent + GetDelay();
         }
+        
+        NextElement?.InAct();
     }
     
     public void UpdateTimeBusy(double delta)
