@@ -7,7 +7,10 @@ var process1 = new Process("PROCESS 1", 1.0)
     MaxQueue = 5
 };
 
-var process2 = new Process("PROCESS 2", 2)
+var process2 = new Process("PROCESS 2", 2.0, new List<Device>
+{
+    new Device()
+})
 {
     MaxQueue = 5
 };

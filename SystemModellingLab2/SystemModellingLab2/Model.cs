@@ -89,7 +89,7 @@ public class Model
  
             if (element is Process process)
             {
-                double load = process.TBusy / TCurrent;
+                double load = process.TBusy / (process.DevicesCount * TCurrent);
 
                 Console.WriteLine($"  queue = {process.Queue}");
                 Console.WriteLine($"  failures = {process.Failure}");
