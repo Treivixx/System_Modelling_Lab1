@@ -25,6 +25,10 @@ public class Model
 
             if (nextElement.TNext > simulationTime)
             {
+                double remainingTime = simulationTime - TCurrent;
+
+                UpdateBusyTime(simulationTime, remainingTime);
+
                 TCurrent = simulationTime;
                 break;
             }
@@ -33,22 +37,26 @@ public class Model
             
             TCurrent = nextElement.TNext;
 
-            foreach (var element in _elements)
-            {
-                element.TCurrent = TCurrent;
-                
-                if (element is Process process && process.State == 1)
-                {
-                    process.UpdateTimeBusy(delta);
-                }
-            }
-
+            UpdateBusyTime(TCurrent, delta);
+            
             nextElement.OutAct();
 
             PrintInfo(nextElement);
         }
 
         PrintResults();
+    }
+    
+    private void UpdateBusyTime(double tCurrent, double timePassed)
+    {
+        foreach (var element in _elements)
+        {
+            element.TCurrent = tCurrent;
+            if (element is Process process && process.State == 1)
+            {
+                process.UpdateTimeBusy(timePassed);
+            }
+        }
     }
 
     private void PrintInfo(Element currentElement)
