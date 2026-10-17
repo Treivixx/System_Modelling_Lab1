@@ -28,12 +28,19 @@ public class Model
                 TCurrent = simulationTime;
                 break;
             }
-
+            
+            double delta = nextElement.TNext - TCurrent;
+            
             TCurrent = nextElement.TNext;
 
             foreach (var element in _elements)
             {
                 element.TCurrent = TCurrent;
+                
+                if (element is Process process && process.State == 1)
+                {
+                    process.UpdateTimeBusy(delta);
+                }
             }
 
             nextElement.OutAct();
@@ -71,11 +78,15 @@ public class Model
         foreach (var element in _elements)
         {
             Console.WriteLine($"{element.Name}: quantity = {element.Quantity}");
-
+ 
             if (element is Process process)
             {
+                double load = process.TBusy / TCurrent;
+
                 Console.WriteLine($"  queue = {process.Queue}");
                 Console.WriteLine($"  failures = {process.Failure}");
+                Console.WriteLine($"  Time Busy = {process.TBusy:F2}");
+                Console.WriteLine($"  load = {load:F2}");
             }
         }
     }

@@ -7,6 +7,8 @@ public class Process : Element
     public int MaxQueue { get; set; } = int.MaxValue;
 
     public int Failure { get; private set; }
+    
+    public double TBusy { get; private set; }
 
     public Process(string name, double delayMean)
         : base(name, delayMean)
@@ -46,5 +48,10 @@ public class Process : Element
             State = 1;
             TNext = TCurrent + GetDelay();
         }
+    }
+    
+    public void UpdateTimeBusy(double delta)
+    {
+        TBusy += delta;
     }
 }
