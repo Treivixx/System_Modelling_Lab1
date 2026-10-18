@@ -24,9 +24,10 @@ var dispose = new Dispose("DISPOSE");
 
 
 create.NextElement = process1;
-process1.NextElement = process2;
-process2.NextElement = process3;
-process3.NextElement = dispose;
+process1.Connections.Add(process2);
+process2.Connections.Add(process3);
+process2.Connections.Add(process1);
+process3.Connections.Add(dispose);
 
 var model = new Model([create, process1, process2, process3, dispose]);
 model.Simulate(1000);

@@ -18,6 +18,8 @@ public class Process : Element
     
     private Device? _nextDevice;
 
+    public List<Element> Connections { get; } = [];
+
     public Process(string name, double delayMean)
         : this(name, delayMean, [new Device()])
     {
@@ -67,7 +69,10 @@ public class Process : Element
 
         UpdateState();
 
-        NextElement?.InAct();
+        if (Connections.Count > 0)
+        {
+            Connections[Random.Shared.Next(Connections.Count)].InAct();
+        }
     }
 
     private void UpdateState()
